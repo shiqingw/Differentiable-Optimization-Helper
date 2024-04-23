@@ -1,4 +1,3 @@
-#include <Eigen/Dense>
 #include <xtensor/xarray.hpp>
 double ellipse_F(const xt::xarray<double>& p, const xt::xarray<double>& a, const xt::xarray<double>& A);
 xt::xarray<double> ellipse_dp(const xt::xarray<double>& p, const xt::xarray<double>& a, const xt::xarray<double>& A);

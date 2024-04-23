@@ -1,7 +1,5 @@
 #include <cmath>
 #include <tuple>
-#include <Eigen/Dense>
-#include <Eigen/Cholesky>
 #include <iostream>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xio.hpp>
@@ -184,7 +182,7 @@ std::tuple<double, xt::xarray<double>, xt::xarray<double>> getGradientEllipses(c
 
     int dim_p = 2, dim_y = 5, dim_x = 3, dim_A_flat = 3, dim_theta = 1;
     xt::xarray<double> A = xt::linalg::dot(R, xt::linalg::dot(D, xt::transpose(R))); // shape dim_p x dim_p
-    xt::xarray<double> p = rimonMethodXtensor(A, a, B, b); // shape dim_p
+    xt::xarray<double> p = rimonMethod(A, a, B, b); // shape dim_p
     double F1 = ellipse_F(p, a, A); // scalar
     xt::xarray<double> F1_dp = ellipse_dp(p, a, A); // shape dim_p
     xt::xarray<double> F2_dp = ellipse_dp(p, b, B); // shape dim_p
@@ -221,7 +219,7 @@ std::tuple<double, xt::xarray<double>, xt::xarray<double>, xt::xarray<double>> g
 
     int dim_p = 2, dim_y = 5, dim_x = 3, dim_A_flat = 3, dim_theta = 1;
     xt::xarray<double> A = xt::linalg::dot(R, xt::linalg::dot(D, xt::transpose(R))); // shape dim_p x dim_p
-    xt::xarray<double> p = rimonMethodXtensor(A, a, B, b); // shape dim_p
+    xt::xarray<double> p = rimonMethod(A, a, B, b); // shape dim_p
     double F1 = ellipse_F(p, a, A); // scalar
     xt::xarray<double> F1_dp = ellipse_dp(p, a, A); // shape dim_p
     xt::xarray<double> F2_dp = ellipse_dp(p, b, B); // shape dim_p

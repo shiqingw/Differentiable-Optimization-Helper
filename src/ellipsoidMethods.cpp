@@ -1,7 +1,5 @@
 #include <cmath>
 #include <tuple>
-#include <Eigen/Dense>
-#include <Eigen/Cholesky>
 #include <iostream>
 #include <xtensor/xarray.hpp>
 #include <xtensor/xio.hpp>
@@ -22,42 +20,7 @@
     various derivatives of F w.r.t. x and p.
 */
 
-Eigen::VectorXd rimonMethod(const Eigen::MatrixXd& A, const Eigen::VectorXd& a, const Eigen::MatrixXd& B, const Eigen::VectorXd& b) {
-    int nv = A.rows();
-    Eigen::LLT<Eigen::MatrixXd> lltOfA(A); // Compute the Cholesky decomposition of A
-    Eigen::MatrixXd A_sqrt = lltOfA.matrixL(); // Extract the lower triangular matrix
-
-    // C = inv(A_sqrt) * B * inv(A_sqrt).T
-    Eigen::MatrixXd A_sqrt_inv = A_sqrt.inverse();
-    Eigen::MatrixXd C = A_sqrt_inv * B * A_sqrt_inv.transpose();
-    
-    Eigen::VectorXd c = A_sqrt.transpose() * (b - a);
-    
-    Eigen::LLT<Eigen::MatrixXd> lltOfC(C); // Cholesky decomposition of C
-    Eigen::MatrixXd C_sqrt = lltOfC.matrixL(); // Lower triangular matrix of C
-    Eigen::VectorXd c_tilde = C_sqrt.triangularView<Eigen::Lower>().solve(c);
-    
-    // Computing C_tilde
-    Eigen::MatrixXd C_sqrt_inv = C_sqrt.inverse();
-    Eigen::MatrixXd C_tilde = C_sqrt_inv * C_sqrt_inv.transpose();
-    
-    // Construct matrix M
-    Eigen::MatrixXd M(2*nv, 2*nv);
-    M << C_tilde, -Eigen::MatrixXd::Identity(nv, nv),
-        -c_tilde * c_tilde.transpose(), C_tilde; // doubt
-    
-    // Compute the smallest eigenvalue of M
-    Eigen::EigenSolver<Eigen::MatrixXd> es(M);
-    double lambda_min = es.eigenvalues().real().minCoeff();
-    
-    // Solve for x_rimon
-    Eigen::VectorXd x_rimon = (lambda_min * C - Eigen::MatrixXd::Identity(nv, nv)).ldlt().solve(C * c);
-    x_rimon = a + lambda_min * A_sqrt.transpose().triangularView<Eigen::Upper>().solve(x_rimon);
-    
-    return x_rimon;
-}
-
-xt::xarray<double> rimonMethodXtensor(const xt::xarray<double>& A, const xt::xarray<double>& a, const xt::xarray<double>& B, const xt::xarray<double>& b) {
+xt::xarray<double> rimonMethod(const xt::xarray<double>& A, const xt::xarray<double>& a, const xt::xarray<double>& B, const xt::xarray<double>& b) {
     int nv = A.shape()[0];
 
     xt::xarray<double> A_sqrt = xt::linalg::cholesky(A); 
@@ -427,7 +390,7 @@ std::tuple<double, xt::xarray<double>, xt::xarray<double>> getGradientEllipsoids
 
     int dim_p = 3, dim_y = 9, dim_x = 7, dim_A_flat = 6, dim_q = 4;
     xt::xarray<double> A = xt::linalg::dot(R, xt::linalg::dot(D, xt::transpose(R))); // shape dim_p x dim_p
-    xt::xarray<double> p = rimonMethodXtensor(A, a, B, b); // shape dim_p
+    xt::xarray<double> p = rimonMethod(A, a, B, b); // shape dim_p
     double F1 = ellipsoid_F(p, a, A); // scalar
     xt::xarray<double> F1_dp = ellipsoid_dp(p, a, A); // shape dim_p
     xt::xarray<double> F2_dp = ellipsoid_dp(p, b, B); // shape dim_p
@@ -465,7 +428,7 @@ std::tuple<double, xt::xarray<double>, xt::xarray<double>, xt::xarray<double>> g
 
     int dim_p = 3, dim_y = 9, dim_x = 7, dim_A_flat = 6, dim_q = 4;
     xt::xarray<double> A = xt::linalg::dot(R, xt::linalg::dot(D, xt::transpose(R))); // shape dim_p x dim_p
-    xt::xarray<double> p = rimonMethodXtensor(A, a, B, b); // shape dim_p
+    xt::xarray<double> p = rimonMethod(A, a, B, b); // shape dim_p
     double F1 = ellipsoid_F(p, a, A); // scalar
     xt::xarray<double> F1_dp = ellipsoid_dp(p, a, A); // shape dim_p
     xt::xarray<double> F2_dp = ellipsoid_dp(p, b, B); // shape dim_p

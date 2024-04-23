@@ -1,7 +1,5 @@
-#include <Eigen/Dense>
 #include <xtensor/xarray.hpp>
-Eigen::VectorXd rimonMethod(const Eigen::MatrixXd& A, const Eigen::VectorXd& a, const Eigen::MatrixXd& B, const Eigen::VectorXd& b);
-xt::xarray<double> rimonMethodXtensor(const xt::xarray<double>& A, const xt::xarray<double>& a, const xt::xarray<double>& B, const xt::xarray<double>& b);
+xt::xarray<double> rimonMethod(const xt::xarray<double>& A, const xt::xarray<double>& a, const xt::xarray<double>& B, const xt::xarray<double>& b);
 double ellipsoid_F(const xt::xarray<double>& p, const xt::xarray<double>& a, const xt::xarray<double>& A);
 xt::xarray<double> ellipsoid_dp(const xt::xarray<double>& p, const xt::xarray<double>& a, const xt::xarray<double>& A);
 xt::xarray<double> ellipsoid_dpdp(const xt::xarray<double>& A);

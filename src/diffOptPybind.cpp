@@ -19,8 +19,7 @@ PYBIND11_MODULE(diffOptHelper, m) {
     m.def("getGradientGeneral", &getGradientGeneral, "getGradientGeneral based on xtensor.");
     m.def("getGradientAndHessianGeneral", &getGradientAndHessianGeneral, "getGradientAndHessianGeneral based on xtensor.");
 
-    m.def("rimonMethod", &rimonMethod, "Rimon method based on Eigen.");
-    m.def("rimonMethodXtensor", &rimonMethodXtensor, "Rimon method based on xtensor.");
+    m.def("rimonMethod", &rimonMethod, "Rimon method based on xtensor.");
     m.def("ellipsoid_F", &ellipsoid_F, "ellipsoid_value based on xtensor.");
     m.def("ellipsoid_dp", &ellipsoid_dp, "ellipsoid_dp based on xtensor.");
     m.def("ellipsoid_dpdp", &ellipsoid_dpdp, "ellipsoid_dpdp based on xtensor.");
