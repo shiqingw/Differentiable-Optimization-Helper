@@ -1,7 +1,7 @@
 #include <numeric>
+#include <xtensor.hpp>
 #include <pybind11/pybind11.h>
-#include <pybind11/eigen.h>
-#include <pybind11/numpy.h>
+#define FORCE_IMPORT_ARRAY
 #include <xtensor-python/pyarray.hpp>
 
 #include "ellipsoidMethods.h"
