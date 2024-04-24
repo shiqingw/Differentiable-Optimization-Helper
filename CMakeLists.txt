@@ -18,12 +18,12 @@ pybind11_add_module(
     src/logSumExpMethods.cpp
 )
 
-if(EXISTS /usr/lib/x86_64-linux-gnu/lapack)
-    link_directories(/usr/lib/x86_64-linux-gnu/lapack)
+if(EXISTS "/usr/lib/x86_64-linux-gnu/lapack")
+    link_directories("/usr/lib/x86_64-linux-gnu/lapack")
 endif()
 
-if(EXISTS /usr/lib/aarch64-linux-gnu/lapack)
-    link_directories(/usr/lib/x86_64-linux-gnu/lapack)
+if(EXISTS "/usr/lib/x86_64-linux-gnu/lapack")
+    link_directories("/usr/lib/x86_64-linux-gnu/lapack")
 endif()
 
 target_link_libraries(diffOptHelper PUBLIC pybind11::module xtensor-python Python::NumPy LAPACK)
