@@ -18,6 +18,12 @@ pybind11_add_module(
     src/logSumExpMethods.cpp
 )
 
-target_link_libraries(diffOptHelper PUBLIC pybind11::module xtensor-python Python::NumPy LAPACK)
+# Determine platform and conditionally link libraries
+if(NOT APPLE)
+  find_package(OpenBLAS REQUIRED)
+  target_link_libraries(diffOptHelper PUBLIC pybind11::module xtensor-python Python::NumPy LAPACK OpenBLAS)
+else()
+    target_link_libraries(diffOptHelper PUBLIC pybind11::module xtensor-python Python::NumPy LAPACK)
+endif()
 
 target_compile_definitions(diffOptHelper PRIVATE VERSION_INFO=0.1.0)
