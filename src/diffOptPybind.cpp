@@ -8,6 +8,7 @@
 #include "ellipseMethods.h"
 #include "logSumExpMethods.h"
 #include "diffOptHelper.h"
+#include "smoothMinimumMethods.h"
 
 namespace py = pybind11;
 
@@ -52,4 +53,6 @@ PYBIND11_MODULE(diffOptHelper, m) {
     m.def("getGradientEllipses", &getGradientEllipses, "getGradientEllipses based on xtensor");
     m.def("getGradientAndHessianEllipses", &getGradientAndHessianEllipses, "getGradientAndHessianEllipses based on xtensor");
 
+    m.def("getSmoothMinimumLocalDerivatives", &getSmoothMinimumLocalDerivatives, "getSmoothMinimumLocalDerivatives based on xtensor");
+    m.def("getSmoothMinimumGradientAndHessian", &getSmoothMinimumGradientAndHessian, "getSmoothMinimumGradientAndHessian based on xtensor");
 }

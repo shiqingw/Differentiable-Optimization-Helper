@@ -16,6 +16,7 @@ pybind11_add_module(
     src/ellipsoidMethods.cpp
     src/ellipseMethods.cpp
     src/logSumExpMethods.cpp
+    src/smoothMinimumMethods.cpp
 )
 
 # If OpenBLAS provides a target, use it directly. If not, specify the library path as you did.
